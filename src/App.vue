@@ -1,8 +1,8 @@
 <template>
-  <main class="dark:bg-[#0D1117] h-screen w-screen">
+  <main class="dark:bg-[#0D1117] bg-slate-200 h-screen w-screen">
     <headerBar class="" />
-    <searchBar class="dark:bg-[#161B22] mx-5 rounded-lg p-2 mb-5" />
-    <mainContent class="dark:bg-[#161B22] mx-5 rounded-lg p-5" />
+    <searchBar class="dark:bg-[#161B22] bg-white mx-5 rounded-lg p-2 mb-5" />
+    <mainContent class="dark:bg-[#161B22] bg-white mx-5 mb-5 rounded-lg p-5 " />
   </main>
 </template>
 <script setup>
