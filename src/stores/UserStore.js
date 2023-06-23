@@ -9,14 +9,46 @@ export const useUserStore = defineStore("user", {
   }),
 
   actions: {
-    async fetchUsers() {
+    // async fetchUsers() {
+    //   try {
+    //     const response = await axios.get("https://api.github.com/users");
+    //     this.users = response.data;
+    //   } catch (error) {
+    //     console.error(error);
+    //   }
+    // },
+    async searchAllUsers() {
       try {
-        const response = await axios.get("https://api.github.com/users");
-        this.users = response.data;
+        let page = 1;
+        let allUsers = [];
+
+        while (true) {
+          const response = await axios.get(
+            "https://api.github.com/users?per_page=100&page=${page}",
+            {
+              headers: {
+                Authorization:
+                  "Bearer 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",
+              },
+            }
+          );
+          const users = response.data;
+          allUsers = allUsers.concat(users);
+
+          if (users.length < 100) {
+            // Reached the last page
+            break;
+          }
+
+          page++;
+        }
+
+        this.users = allUsers;
       } catch (error) {
         console.error(error);
       }
     },
+
     // user select
     selectUser(user) {
       this.selectedUser = user;
