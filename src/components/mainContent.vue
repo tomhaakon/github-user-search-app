@@ -79,17 +79,17 @@
             />
           </svg>
         </div>
-        <div class="px-5">
+        <div class="px-5 text-sm">
           <!-- twitter url-->
-          <p class="text-sm">
-            <a :href="'${twitterUrl}/${selectedUser.twitter}'">
-              {{
-                selectedUser.twitter_username
-                  ? selectedUser.twitter_username
-                  : "Not Available."
-              }}
-            </a>
-          </p>
+
+          <a
+            v-if="selectedUser.twitter_username"
+            target="_blank"
+            :href="'https://twitter.com/' + selectedUser.twitter_username"
+          >
+            {{ selectedUser.twitter_username }}
+          </a>
+          <p v-if="!selectedUser.twitter_username">Not Available.</p>
         </div>
       </div>
       <div class="inline-flex">
@@ -105,10 +105,11 @@
             </g>
           </svg>
         </div>
-        <div class="px-5">
-          <p class="text-sm">
-            {{ selectedUser.url ? selectedUser.url : "Not Available." }}
-          </p>
+        <div class="px-5 text-sm">
+          <a v-if="selectedUser" :href="selectedUser.url" target="_blank">{{
+            selectedUser.url
+          }}</a>
+          <p v-if="!selectedUser.url">Not Available.</p>
         </div>
       </div>
       <!-- company icon -->
@@ -125,7 +126,12 @@
         <div class="px-5">
           <!-- company -->
           <p v-if="selectedUser.company" class="text-sm">
-            <a href="">{{ selectedUser.company }}</a>
+            <a
+              v-for="link in convertToLink(selectedUser.company)"
+              :href="'https://github.com/' + link"
+            >
+              @{{ link }}
+            </a>
           </p>
         </div>
       </div>
@@ -143,6 +149,7 @@ import { ref, toRef, watchEffect } from "vue";
 import { useUserStore } from "../stores/UserStore";
 
 const userStore = useUserStore();
+
 const selectedUser = ref(userStore.getSelectedUser);
 const showUser = ref(userStore.getSelectedUser !== null);
 
@@ -151,16 +158,10 @@ watchEffect(() => {
   showUser.value = userStore.getSelectedUser !== null;
 });
 
-const convertToLink = (str) => {
-  const links = str
-    .split(", ") // Split the string into an array of individual words
-    .map((word) => {
-      const username = word.replace("@", ""); // Remove the @ symbol from the word
-      const link = `https://github.com/${username}`; // Create the link using template literals
-      return { username, link }; // Return an object with username and link properties
-    });
-  return links;
+const convertToLink = (string) => {
+  const linkTags = string.split(", ").map((tag) => tag.replace("@", ""));
+  linkTags.forEach((entry) => {});
+  return linkTags;
 };
-
 //refs
 </script>

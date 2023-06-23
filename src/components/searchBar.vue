@@ -94,7 +94,7 @@ onMounted(async () => {
   loading.value = false;
 });
 const search = () => {
-  console.log("searched for:", searchQuery.value);
+  // console.log("searched for:", searchQuery.value);
 };
 const searchedUser = computed(() => {
   if (searchQuery && !loading.value) {
@@ -105,10 +105,10 @@ const searchedUser = computed(() => {
   }
 });
 const closeDialog = () => {
-  console.log("close");
+  // console.log("close");
 };
 const selectUser = (user) => {
-  console.log("selected user:", user);
+  // console.log("selected user:", user);
   userStore.$patch({ selectedUser: user });
   userStore.$patch({ showUser: true });
   userStore.fetchSingleUser();
