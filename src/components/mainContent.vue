@@ -1,15 +1,15 @@
 <template>
   <div class="" v-if="showUser">
-    <div class="flex place-content-evenly">
-      <div>
+    <div class="grid grid-cols-3">
+      <div class="col-start-1">
         <!-- logo -->
-        <img :src="selectedUser.avatar_url" class="w-24" />
+        <img :src="selectedUser.avatar_url" class="w-24 rounded-full" />
       </div>
       <!-- user nickname -->
-      <div class="px-5">
-        <div class="">
-          <h1 class="dark:text-slate-200 text-2xl font-bold text-right">
-            {{ selectedUser.login }}
+      <div class="col-start-2 col-span-2 grid">
+        <div class="row-span-3">
+          <h1 class="dark:text-slate-200 font-bold text-right">
+            {{ selectedUser.name ? selectedUser.name : selectedUser.login }}
           </h1>
         </div>
         <div class="dark:text-slate-400 text-slate-400 text-sm text-right">
@@ -28,7 +28,7 @@
     </div>
     <div class="dark:text-slate-400 dark:bg-inherit py-5 rounded-lg">
       <p>
-        {{ selectedUser.bio ? selectedUser.bio : "this profile has no bio" }}
+        {{ selectedUser.bio ? selectedUser.bio : "This profile has no bio." }}
       </p>
     </div>
     <!-- stats -->
@@ -52,7 +52,7 @@
     </div>
     <!-- SoMe links -->
     <div class="dark:text-slate-400 mt-5 grid grid-cols-1 gap-2 pl-3 my-10">
-      <div class="inline-flex" v-if="selectedUser.location">
+      <div class="inline-flex">
         <div class="w-3">
           <svg height="20" width="14" xmlns="http://www.w3.org/2000/svg">
             <path
@@ -63,10 +63,14 @@
         </div>
         <div class="px-5">
           <!-- location -->
-          <p class="text-sm">{{ selectedUser.location }}</p>
+          <p class="text-sm">
+            {{
+              selectedUser.location ? selectedUser.location : "Not Available."
+            }}
+          </p>
         </div>
       </div>
-      <div class="inline-flex" v-if="selectedUser.twitter_username">
+      <div class="inline-flex">
         <div class="w-3">
           <svg height="18" width="20" xmlns="http://www.w3.org/2000/svg">
             <path
@@ -82,13 +86,13 @@
               {{
                 selectedUser.twitter_username
                   ? selectedUser.twitter_username
-                  : "none"
+                  : "Not Available."
               }}
             </a>
           </p>
         </div>
       </div>
-      <div class="inline-flex" v-if="selectedUser.url">
+      <div class="inline-flex">
         <div class="w-3">
           <svg height="20" width="20" xmlns="http://www.w3.org/2000/svg">
             <g :fill="iconColor">
@@ -102,11 +106,13 @@
           </svg>
         </div>
         <div class="px-5">
-          <p class="text-sm">{{ selectedUser.url }}</p>
+          <p class="text-sm">
+            {{ selectedUser.url ? selectedUser.url : "Not Available." }}
+          </p>
         </div>
       </div>
       <!-- company icon -->
-      <div class="inline-flex" v-if="selectedUser.company">
+      <div class="inline-flex">
         <div class="w-3">
           <svg height="20" width="20" xmlns="http://www.w3.org/2000/svg">
             <g :fill="iconColor">
@@ -118,7 +124,9 @@
         </div>
         <div class="px-5">
           <!-- company -->
-          <p class="text-sm">{{ selectedUser.company }}</p>
+          <p v-if="selectedUser.company" class="text-sm">
+            <a href="">{{ selectedUser.company }}</a>
+          </p>
         </div>
       </div>
     </div>
@@ -143,6 +151,16 @@ watchEffect(() => {
   showUser.value = userStore.getSelectedUser !== null;
 });
 
+const convertToLink = (str) => {
+  const links = str
+    .split(", ") // Split the string into an array of individual words
+    .map((word) => {
+      const username = word.replace("@", ""); // Remove the @ symbol from the word
+      const link = `https://github.com/${username}`; // Create the link using template literals
+      return { username, link }; // Return an object with username and link properties
+    });
+  return links;
+};
 
 //refs
 </script>

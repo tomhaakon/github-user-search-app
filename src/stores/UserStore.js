@@ -17,8 +17,19 @@ export const useUserStore = defineStore("user", {
         console.error(error);
       }
     },
+    // user select
     selectUser(user) {
       this.selectedUser = user;
+    },
+    // format date
+    formatJoinedDate(dateString) {
+      const date = new Date(dateString);
+      const formattedDate = date.toLocaleDateString("en-US", {
+        month: "2-digit",
+        day: "2-digit",
+        year: "numeric",
+      });
+      return formattedDate.replace(/\//g, ".");
     },
     async fetchSingleUser() {
       try {
