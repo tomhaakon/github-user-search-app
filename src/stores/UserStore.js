@@ -25,7 +25,7 @@ export const useUserStore = defineStore("user", {
     formatJoinedDate(dateString) {
       const date = new Date(dateString);
       const formattedDate = date.toLocaleDateString("en-US", {
-        month: "2-digit",
+        month: "long",
         day: "2-digit",
         year: "numeric",
       });
