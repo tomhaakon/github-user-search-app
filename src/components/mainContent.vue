@@ -1,32 +1,35 @@
 <template>
-  <div class="" v-if="userData">
+  <div class="" v-if="showUser">
     <div class="flex place-content-evenly">
       <div>
         <!-- logo -->
-        <img :src="userData.avatar_url" class="w-24" />
+        <img :src="selectedUser.avatar_url" class="w-24" />
       </div>
       <!-- user nickname -->
       <div class="px-5">
         <div class="">
-          <h1 class="dark:text-slate-200 text-2xl font-bold">
-            {{ userData.login }}
+          <h1 class="dark:text-slate-200 text-2xl font-bold text-right">
+            {{ selectedUser.login }}
           </h1>
         </div>
-
         <div class="dark:text-slate-400 text-slate-400 text-sm text-right">
           <!-- joined date -->
-          <p>joined 25 jun 2021</p>
+          <p>joined {{ selectedUser.created_at }}</p>
         </div>
         <div
           class="dark:text-blue-300 text-right text-lg text-blue-600 font-bold"
         >
-          <!-- user link -->
-          <p>@usertag</p>
+          <!-- user tag -->
+          <a :href="'https://github.com/' + selectedUser.login" target="_blank">
+            <p>@{{ selectedUser.login }}</p></a
+          >
         </div>
       </div>
     </div>
     <div class="dark:text-slate-400 dark:bg-inherit py-5 rounded-lg">
-      <p>this profile has no bio</p>
+      <p>
+        {{ selectedUser.bio ? selectedUser.bio : "this profile has no bio" }}
+      </p>
     </div>
     <!-- stats -->
     <div
@@ -37,14 +40,20 @@
       <div class="">Followers</div>
       <div class="">Following</div>
       <!-- stat -->
-      <div class="text-xl dark:text-white font-bold">8</div>
-      <div class="text-xl dark:text-white font-bold">10</div>
-      <div class="text-xl dark:text-white font-bold">5</div>
+      <div class="text-xl dark:text-white font-bold">
+        {{ selectedUser.public_repos }}
+      </div>
+      <div class="text-xl dark:text-white font-bold">
+        {{ selectedUser.followers }}
+      </div>
+      <div class="text-xl dark:text-white font-bold">
+        {{ selectedUser.following }}
+      </div>
     </div>
     <!-- SoMe links -->
     <div class="dark:text-slate-400 mt-5 grid grid-cols-1 gap-2 pl-3 my-10">
-      <div class="inline-flex">
-        <div>
+      <div class="inline-flex" v-if="selectedUser.location">
+        <div class="w-3">
           <svg height="20" width="14" xmlns="http://www.w3.org/2000/svg">
             <path
               d="M12.797 3.425C11.584 1.33 9.427.05 7.03.002a7.483 7.483 0 00-.308 0C4.325.05 2.17 1.33.955 3.425a6.963 6.963 0 00-.09 6.88l4.959 9.077.007.012c.218.38.609.606 1.045.606.437 0 .828-.226 1.046-.606l.007-.012 4.96-9.077a6.963 6.963 0 00-.092-6.88zm-5.92 5.638c-1.552 0-2.813-1.262-2.813-2.813s1.261-2.812 2.812-2.812S9.69 4.699 9.69 6.25 8.427 9.063 6.876 9.063z"
@@ -53,11 +62,12 @@
           </svg>
         </div>
         <div class="px-5">
-          <p>San Fransisco</p>
+          <!-- location -->
+          <p class="text-sm">{{ selectedUser.location }}</p>
         </div>
       </div>
-      <div class="inline-flex">
-        <div>
+      <div class="inline-flex" v-if="selectedUser.twitter_username">
+        <div class="w-3">
           <svg height="18" width="20" xmlns="http://www.w3.org/2000/svg">
             <path
               d="M20 2.799a8.549 8.549 0 01-2.363.647 4.077 4.077 0 001.804-2.266 8.194 8.194 0 01-2.6.993A4.099 4.099 0 009.75 4.977c0 .324.027.637.095.934-3.409-.166-6.425-1.8-8.452-4.288a4.128 4.128 0 00-.56 2.072c0 1.42.73 2.679 1.82 3.408A4.05 4.05 0 01.8 6.598v.045a4.119 4.119 0 003.285 4.028 4.092 4.092 0 01-1.075.135c-.263 0-.528-.015-.776-.07.531 1.624 2.038 2.818 3.831 2.857A8.239 8.239 0 01.981 15.34 7.68 7.68 0 010 15.285a11.543 11.543 0 006.29 1.84c7.545 0 11.67-6.25 11.67-11.667 0-.182-.006-.357-.015-.53A8.18 8.18 0 0020 2.798z"
@@ -65,10 +75,21 @@
             />
           </svg>
         </div>
-        <div class="px-5"><p>link</p></div>
+        <div class="px-5">
+          <!-- twitter url-->
+          <p class="text-sm">
+            <a :href="'${twitterUrl}/${selectedUser.twitter}'">
+              {{
+                selectedUser.twitter_username
+                  ? selectedUser.twitter_username
+                  : "none"
+              }}
+            </a>
+          </p>
+        </div>
       </div>
-      <div class="inline-flex">
-        <div>
+      <div class="inline-flex" v-if="selectedUser.url">
+        <div class="w-3">
           <svg height="20" width="20" xmlns="http://www.w3.org/2000/svg">
             <g :fill="iconColor">
               <path
@@ -80,11 +101,13 @@
             </g>
           </svg>
         </div>
-        <div class="px-5"><p>https:github.blog</p></div>
+        <div class="px-5">
+          <p class="text-sm">{{ selectedUser.url }}</p>
+        </div>
       </div>
-      <!-- company -->
-      <div class="inline-flex">
-        <div>
+      <!-- company icon -->
+      <div class="inline-flex" v-if="selectedUser.company">
+        <div class="w-3">
           <svg height="20" width="20" xmlns="http://www.w3.org/2000/svg">
             <g :fill="iconColor">
               <path
@@ -93,7 +116,10 @@
             </g>
           </svg>
         </div>
-        <div class="px-5"><p>@github</p></div>
+        <div class="px-5">
+          <!-- company -->
+          <p class="text-sm">{{ selectedUser.company }}</p>
+        </div>
       </div>
     </div>
   </div>
@@ -102,16 +128,21 @@
   </div>
 </template>
 <script setup>
-//import
-
 const iconColor = "#C4C4C4";
-import { useSearchStore } from "../stores/SearchStore";
+const twitterUrl = "https://www.twitter.com/";
+//import
+import { ref, toRef, watchEffect } from "vue";
+import { useUserStore } from "../stores/UserStore";
 
-const searchStore = useSearchStore();
+const userStore = useUserStore();
+const selectedUser = ref(userStore.getSelectedUser);
+const showUser = ref(userStore.getSelectedUser !== null);
+
+watchEffect(() => {
+  selectedUser.value = userStore.getSelectedUser;
+  showUser.value = userStore.getSelectedUser !== null;
+});
+
+
 //refs
-
-const userData = searchStore.selectedUser;
-//functions
-searchStore.$patch({ selectedUser: null });
-console.log(userData);
 </script>

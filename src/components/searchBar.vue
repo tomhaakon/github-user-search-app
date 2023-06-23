@@ -46,7 +46,7 @@
                   <div class="w-20">
                     <button
                       class="btn btn-sm border-0 hover:border-0"
-                      @click="selectUser(searchedUser)"
+                      @click="selectUser(searchedUser.login)"
                     >
                       select
                     </button>
@@ -73,32 +73,32 @@
         </div>
       </form>
     </dialog>
+
     <!-- <pre>{{ searchStore.selectedUser }}</pre> -->
   </div>
 </template>
 <script setup>
 import { onMounted, ref, computed } from "vue";
-import { useSearchStore } from "../stores/SearchStore";
+import { useUserStore } from "../stores/UserStore";
 
-const searchStore = useSearchStore();
+const userStore = useUserStore();
 
 //refs
 const searchQuery = ref("");
 const loading = ref(true);
+const user = ref("");
 
 //funksjoner
 onMounted(async () => {
-  await searchStore.fetchUsers();
+  await userStore.fetchUsers();
   loading.value = false;
 });
 const search = () => {
-  console.log("søk");
-  console.log(searchStore.users[0]);
   console.log("searched for:", searchQuery.value);
 };
 const searchedUser = computed(() => {
   if (searchQuery && !loading.value) {
-    const foundUser = searchStore.users.find(
+    const foundUser = userStore.users.find(
       (user) => user.login === searchQuery.value
     );
     return foundUser;
@@ -108,6 +108,9 @@ const closeDialog = () => {
   console.log("close");
 };
 const selectUser = (user) => {
-  searchStore.$patch({ selectedUser: user });
+  console.log("selected user:", user);
+  userStore.$patch({ selectedUser: user });
+  userStore.$patch({ showUser: true });
+  userStore.fetchSingleUser();
 };
 </script>
