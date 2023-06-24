@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
 import axios from "axios";
+import { TOKEN } from "./config.js";
 
 export const useUserStore = defineStore("user", {
   state: () => ({
@@ -27,8 +28,7 @@ export const useUserStore = defineStore("user", {
             "https://api.github.com/users?per_page=100&page=${page}",
             {
               headers: {
-                Authorization:
-                  "Bearer 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",
+                Authorization: TOKEN,
               },
             }
           );
