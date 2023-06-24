@@ -86,18 +86,23 @@ const userStore = useUserStore();
 //refs
 const searchQuery = ref("");
 const loading = ref(true);
-
+console.log("hmm", searchQuery.value);
 //funksjoner
 onMounted(async () => {
   await userStore.searchAllUsers();
+  console.log("userstore ok");
   loading.value = false;
 });
 const search = () => {
-  // console.log("searched for:", searchQuery.value);
+  console.log("searched for:", searchQuery.value);
+  if (userStore.users.length > 0) {
+    console.log(userStore.users);
+  }
 };
 const searchedUser = computed(() => {
   if (searchQuery.value !== "" && !loading.value) {
     return userStore.users.find((user) => user.login === searchQuery.value);
+    console.log("test", searchQuery.value);
   }
 });
 const closeDialog = () => {

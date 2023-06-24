@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 import axios from "axios";
 import { TOKEN } from "./config.js";
+import { useBreakpoints } from "@vueuse/core";
 
 export const useUserStore = defineStore("user", {
   state: () => ({
@@ -21,29 +22,36 @@ export const useUserStore = defineStore("user", {
     async searchAllUsers() {
       try {
         let page = 1;
-        let allUsers = [];
+        const perPage = 2;
+        let allUserLogins = [];
 
         while (true) {
-          const response = await axios.get(
-            "https://api.github.com/users?per_page=100&page=${page}",
-            {
-              headers: {
-                Authorization: TOKEN,
-              },
-            }
-          );
-          const users = response.data;
-          allUsers = allUsers.concat(users);
+          console.log(`Loading users - Page ${page}`);
+          const response = await axios.get("https://api.github.com/users", {
+            headers: {
+              Authorization: TOKEN,
+            },
+            params: {
+              per_page: perPage,
+              page: page,
+            },
+          });
 
-          if (users.length < 100) {
-            // Reached the last page
+          const users = response.data;
+
+          if (users.length === 0) {
+            // No more users, break the loop
+            console.log("All users loaded");
             break;
           }
 
+          const userLogins = users.map((user) => user.login);
+          allUserLogins = allUserLogins.concat(userLogins);
+          this.users = allUserLogins;
+          console.log(userLogins);
+          break;
           page++;
         }
-
-        this.users = allUsers;
       } catch (error) {
         console.error(error);
       }
@@ -53,16 +61,7 @@ export const useUserStore = defineStore("user", {
     selectUser(user) {
       this.selectedUser = user;
     },
-    // format date
-    formatJoinedDate(dateString) {
-      const date = new Date(dateString);
-      const formattedDate = date.toLocaleDateString("en-US", {
-        month: "long",
-        day: "2-digit",
-        year: "numeric",
-      });
-      return formattedDate.replace(/\//g, ".");
-    },
+
     async fetchSingleUser() {
       try {
         // console.log("fetch single user:", this.selectedUser);
@@ -76,6 +75,16 @@ export const useUserStore = defineStore("user", {
       } catch (error) {
         console.error(error);
       }
+    },
+    // format date
+    formatJoinedDate(dateString) {
+      const date = new Date(dateString);
+      const formattedDate = date.toLocaleDateString("en-US", {
+        month: "long",
+        day: "2-digit",
+        year: "numeric",
+      });
+      return formattedDate.replace(/\//g, ".");
     },
   },
   getters: {
