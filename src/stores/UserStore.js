@@ -1,81 +1,47 @@
 import { defineStore } from "pinia";
-import axios from "axios";
 import { TOKEN } from "./config.js";
-import { useBreakpoints } from "@vueuse/core";
 
 export const useUserStore = defineStore("user", {
   state: () => ({
     users: [],
     selectedUser: null,
-    showUser: false,
   }),
 
   actions: {
-    // async fetchUsers() {
-    //   try {
-    //     const response = await axios.get("https://api.github.com/users");
-    //     this.users = response.data;
-    //   } catch (error) {
-    //     console.error(error);
-    //   }
-    // },
-    async searchAllUsers() {
+    async searchAllUsers(user) {
       try {
-        let page = 1;
-        const perPage = 2;
-        let allUserLogins = [];
-
-        while (true) {
-          console.log(`Loading users - Page ${page}`);
-          const response = await axios.get("https://api.github.com/users", {
+        const response = await fetch(
+          "https://api.github.com/search/users?q=" +
+            user +
+            "&page,per_page,sort,order",
+          {
             headers: {
               Authorization: TOKEN,
             },
-            params: {
-              per_page: perPage,
-              page: page,
-            },
-          });
-
-          const users = response.data;
-
-          if (users.length === 0) {
-            // No more users, break the loop
-            console.log("All users loaded");
-            break;
           }
-
-          const userLogins = users.map((user) => user.login);
-          allUserLogins = allUserLogins.concat(userLogins);
-          this.users = allUserLogins;
-          console.log(userLogins);
-          break;
-          page++;
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    },
-
-    // user select
-    selectUser(user) {
-      this.selectedUser = user;
-    },
-
-    async fetchSingleUser() {
-      try {
-        // console.log("fetch single user:", this.selectedUser);
-        const response = await axios.get(
-          "https://api.github.com/users/" + this.selectedUser
         );
-        this.selectedUser = response.data;
 
-        // console.log("showUser?:", this.showUser);
-        // console.log("SearchStore-selectedUser:", this.selectedUser);
+        return response;
       } catch (error) {
         console.error(error);
       }
     },
+    async selectSingleUser(user) {
+      return fetch("https://api.github.com/users/" + user, {
+        headers: {
+          Authorization: TOKEN,
+        },
+      })
+        .then((response) => response.json())
+        .then((responseData) => {
+          console.log("userstore,responsdata:", responseData);
+          this.selectedUser = responseData;
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
+
     // format date
     formatJoinedDate(dateString) {
       const date = new Date(dateString);

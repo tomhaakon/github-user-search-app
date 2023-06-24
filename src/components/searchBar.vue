@@ -27,26 +27,25 @@
               <div v-if="searchQuery === ''">
                 <p class="dark:text-slate-200">Your searchfield is empty.</p>
               </div>
-              <div v-else-if="searchedUser">
+              <div v-else-if="users">
                 <!-- show users found -->
-
-                <div class="grid grid-cols-7 gap-4 dark:text-white">
+                <div
+                  class="grid grid-cols-7 gap-4 dark:text-white"
+                  v-for="user in users"
+                >
                   <!-- avatar -->
                   <div class="w-10">
-                    <img
-                      :src="searchedUser.avatar_url"
-                      class="h-10 rounded-full"
-                    />
+                    <img :src="user.avatar_url" class="h-10 rounded-full" />
                   </div>
                   <!-- username -->
                   <div class="col-span-4">
-                    <p class="text-lg font-bold">@{{ searchedUser.login }}</p>
+                    <p class="text-lg font-bold">@{{ user.login }}</p>
                   </div>
                   <!-- select button -->
                   <div class="w-20">
                     <button
                       class="btn btn-sm border-0 hover:border-0"
-                      @click="selectUser(searchedUser.login)"
+                      @click="selectUser(user)"
                     >
                       select
                     </button>
@@ -59,7 +58,7 @@
                   No users found with name "{{ searchQuery }}"
                 </p>
               </div>
-              <!-- {{ searchedUser ? searchedUser.login : "User not found" }} -->
+              <!-- {{ users ? users.login : "User not found" }} -->
             </div>
           </div>
         </div>
@@ -78,40 +77,35 @@
   </div>
 </template>
 <script setup>
-import { onMounted, ref, computed } from "vue";
+import { ref } from "vue";
 import { useUserStore } from "../stores/UserStore";
 
 const userStore = useUserStore();
-
+const users = ref([]);
 //refs
 const searchQuery = ref("");
 const loading = ref(true);
-console.log("hmm", searchQuery.value);
+
 //funksjoner
-onMounted(async () => {
-  await userStore.searchAllUsers();
-  console.log("userstore ok");
-  loading.value = false;
-});
-const search = () => {
-  console.log("searched for:", searchQuery.value);
-  if (userStore.users.length > 0) {
-    console.log(userStore.users);
+
+const search = async () => {
+  if (searchQuery.value !== "") {
+    const response = await userStore.searchAllUsers(searchQuery.value);
+    const responseData = await response.json(); // Extract the JSON data from the response
+    const result = responseData.items; // Extract the user data from the response JSON
+    users.value = result;
+  } else {
+    console.log("Empty search field");
   }
 };
-const searchedUser = computed(() => {
-  if (searchQuery.value !== "" && !loading.value) {
-    return userStore.users.find((user) => user.login === searchQuery.value);
-    console.log("test", searchQuery.value);
-  }
-});
+
 const closeDialog = () => {
   // console.log("close");
 };
 const selectUser = (user) => {
-  // console.log("selected user:", user);
+  // console.log("selected user:", user.login);
   userStore.$patch({ selectedUser: user });
   userStore.$patch({ showUser: true });
-  userStore.fetchSingleUser();
+  userStore.selectSingleUser(user.login);
 };
 </script>

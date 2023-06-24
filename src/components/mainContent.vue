@@ -3,34 +3,32 @@
     <div class="grid grid-cols-3">
       <div class="col-start-1">
         <!-- logo -->
-        <img :src="selectedUser.avatar_url" class="w-24 rounded-full" />
+        <img :src="user.avatar_url" class="w-24 rounded-full" />
       </div>
       <!-- user nickname -->
       <div class="col-start-2 col-span-2 grid">
         <div class="h-3">
           <h1 class="dark:text-slate-200 font-bold text-right">
-            {{ selectedUser.name ? selectedUser.name : selectedUser.login }}
+            {{ user.name ? user.name : user.login }}
           </h1>
         </div>
         <div class="dark:text-slate-600 text-slate-400 text-sm text-right">
           <!-- joined date -->
-          <p>
-            joined {{ userStore.formatJoinedDate(selectedUser.created_at) }}
-          </p>
+          <p>joined {{ userStore.formatJoinedDate(user.created_at) }}</p>
         </div>
         <div
           class="dark:text-blue-300 text-right text-lg text-blue-600 font-bold"
         >
           <!-- user tag -->
-          <a :href="'https://github.com/' + selectedUser.login" target="_blank">
-            <p>@{{ selectedUser.login }}</p></a
+          <a :href="'https://github.com/' + user.login" target="_blank">
+            <p>@{{ user.login }}</p></a
           >
         </div>
       </div>
     </div>
     <div class="dark:text-slate-400 dark:bg-inherit py-5 rounded-lg">
       <p>
-        {{ selectedUser.bio ? selectedUser.bio : "This profile has no bio." }}
+        {{ user.bio ? user.bio : "This profile has no bio." }}
       </p>
     </div>
     <!-- stats -->
@@ -43,13 +41,13 @@
       <div class="">Following</div>
       <!-- stat -->
       <div class="text-xl dark:text-white font-bold">
-        {{ selectedUser.public_repos }}
+        {{ user.public_repos }}
       </div>
       <div class="text-xl dark:text-white font-bold">
-        {{ selectedUser.followers }}
+        {{ user.followers }}
       </div>
       <div class="text-xl dark:text-white font-bold">
-        {{ selectedUser.following }}
+        {{ user.following }}
       </div>
     </div>
     <!-- SoMe links -->
@@ -66,9 +64,7 @@
         <div class="px-5">
           <!-- location -->
           <p class="text-sm">
-            {{
-              selectedUser.location ? selectedUser.location : "Not Available."
-            }}
+            {{ user.location ? user.location : "Not Available." }}
           </p>
         </div>
       </div>
@@ -85,13 +81,13 @@
           <!-- twitter url-->
 
           <a
-            v-if="selectedUser.twitter_username"
+            v-if="user.twitter_username"
             target="_blank"
-            :href="'https://twitter.com/' + selectedUser.twitter_username"
+            :href="'https://twitter.com/' + user.twitter_username"
           >
-            {{ selectedUser.twitter_username }}
+            {{ user.twitter_username }}
           </a>
-          <p v-if="!selectedUser.twitter_username">Not Available.</p>
+          <p v-if="!user.twitter_username">Not Available.</p>
         </div>
       </div>
       <div class="inline-flex">
@@ -108,10 +104,10 @@
           </svg>
         </div>
         <div class="px-5 text-sm">
-          <a v-if="selectedUser" :href="selectedUser.url" target="_blank">{{
-            selectedUser.html_url
+          <a v-if="user" :href="user.url" target="_blank">{{
+            user.html_url
           }}</a>
-          <p v-if="!selectedUser.html_url">Not Available.</p>
+          <p v-if="!user.html_url">Not Available.</p>
         </div>
       </div>
       <!-- company icon -->
@@ -127,15 +123,15 @@
         </div>
         <div class="px-5 text-sm">
           <!-- company -->
-          <p v-if="selectedUser.company" class="">
+          <p v-if="user.company" class="">
             <a
-              v-for="link in convertToLink(selectedUser.company)"
+              v-for="link in convertToLink(user.company)"
               :href="'https://github.com/' + link"
             >
               @{{ link }}
             </a>
           </p>
-          <p v-if="!selectedUser.company">Not Available.</p>
+          <p v-if="!user.company">Not Available.</p>
         </div>
       </div>
     </div>
@@ -146,19 +142,19 @@
 </template>
 <script setup>
 const iconColor = "#C4C4C4";
-const twitterUrl = "https://www.twitter.com/";
+
 //import
-import { ref, toRef, watchEffect } from "vue";
+import { ref, watchEffect } from "vue";
 import { useUserStore } from "../stores/UserStore";
 
 const userStore = useUserStore();
+const user = ref();
+const showUser = ref(false);
 
-const selectedUser = ref(userStore.getSelectedUser);
-const showUser = ref(userStore.getSelectedUser !== null);
-
+console.log("test", user.value);
 watchEffect(() => {
-  selectedUser.value = userStore.getSelectedUser;
-  showUser.value = userStore.getSelectedUser !== null;
+  user.value = userStore.getSelectedUser;
+  showUser.value = user.value !== null;
 });
 
 const convertToLink = (string) => {
