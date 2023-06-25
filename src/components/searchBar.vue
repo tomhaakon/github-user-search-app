@@ -1,20 +1,20 @@
 <template>
-  <div class="flex">
+  <div class="flex ">
     <img src="../assets/icon-search.svg" class="ml-2 h-5 p-0 mt-4" />
     <div class="flex-1">
       <input
         type="text"
         placeholder="Search GitHub username"
-        class="font-mono dark:text-white tracking-tighter pr-0 text-sm w-full input-ghost input border-0 focus:outline-none"
+        class="font-mono dark:text-white tracking-tighter md:text-lg pr-0 text-sm w-full input-ghost input border-0 focus:outline-none"
         v-model="searchQuery"
       />
     </div>
     <div v-if="alertNotFound" class="mt-3 font-bold text-red-600 mr-2">
-      <p>User not found</p>
+      <p>No result</p>
     </div>
     <div>
       <button
-        class="font-mono btn normal-case bg-[#0079FF] text-white border-0"
+        class="font-mono btn normal-casen bg-[#0079FF] text-white border-0"
         @click="search(searchQuery)"
       >
         Search

@@ -1,22 +1,22 @@
 <template>
-  <div class="" v-if="showUser">
-    <div class="grid grid-cols-3 mt-4">
+  <div class="md:px-10 lg:px-14" v-if="showUser">
+    <div class="grid grid-cols-3">
       <div class="col-start-1">
         <!-- logo -->
-        <img :src="user.avatar_url" class="w-20 rounded-full" />
+        <img :src="user.avatar_url" class="w-20 md:w-32 rounded-full" />
       </div>
       <!-- user nickname -->
       <div class="col-start-2 col-span-2 grid">
-        <div class="mx-5">
+        <div class="mx-5 md:h-2 md:mt-5">
           <h1
-            class="dark:text-slate-200 text-[22px] tracking-5 font-mono text-left"
+            class="dark:text-slate-200 text-[22px] md:font-bold tracking-5 font-mono text-left"
           >
             {{ user.name ? user.name : user.login }}
           </h1>
         </div>
 
         <div
-          class="mt-1 text-left text-blue-600 font-mono tracking-widest font-extralight mx-5"
+          class="mt-1 md:h-2 text-left text-blue-600 font-mono tracking-widest font-extralight mx-5"
         >
           <!-- user tag -->
           <a :href="'https://github.com/' + user.login" target="_blank">
@@ -40,7 +40,7 @@
     </div>
     <!-- stats -->
     <div
-      class="dark:text-slate-400 font-mono text-sm tracking-wide dark:bg-[#141D2F] rounded-xl pt-5 px-6 pb-8 grid grid-cols-3 gap-2 text-center"
+      class="dark:text-slate-400 font-mono text-sm tracking-wide dark:bg-[#141D2F] rounded-xl pt-5 pb-8 grid grid-cols-3 gap-2 text-center"
     >
       <!-- headers -->
       <div class="">Repos</div>
