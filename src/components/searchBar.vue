@@ -1,11 +1,11 @@
 <template>
   <div class="flex">
-    <img src="../assets/icon-search.svg" class="ml-3 h-5 p-0 mt-4" />
+    <img src="../assets/icon-search.svg" class="ml-2 h-5 p-0 mt-4" />
     <div class="flex-1">
       <input
         type="text"
-        placeholder="Search GitHub username..."
-        class="dark:text-white w-full input-ghost input border-0 focus:outline-none"
+        placeholder="Search GitHub username"
+        class="font-mono dark:text-white tracking-tighter pr-0 text-sm w-full input-ghost input border-0 focus:outline-none"
         v-model="searchQuery"
       />
     </div>
@@ -14,7 +14,7 @@
     </div>
     <div>
       <button
-        class="btn bg-[#0079FF] text-white border-0"
+        class="font-mono btn normal-case bg-[#0079FF] text-white border-0"
         @click="search(searchQuery)"
       >
         Search

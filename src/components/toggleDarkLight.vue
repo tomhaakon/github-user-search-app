@@ -1,5 +1,5 @@
 <template>
-  <div class="mt-5">
+  <div class="mt-5 font-mono">
     <div v-if="!isDark" class="flex">
       <button @click="toggleDark()" class="btn btn-ghost">
         <p class="text-black">dark</p>

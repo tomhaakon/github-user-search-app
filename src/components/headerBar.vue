@@ -2,9 +2,9 @@
   <div class="navbar">
     <div class="flex-1 mt-5">
       <a
-        class="btn border-0 normal-case text-3xl dark:text-white"
+        class="font-mono btn border-0 normal-case tracking-wide text-3xl dark:text-white"
         href="http://localhost:5173/"
-        >devFinder</a
+        >devfinder</a
       >
     </div>
     <div class="flex-none">

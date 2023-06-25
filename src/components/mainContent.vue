@@ -8,49 +8,59 @@
       <!-- user nickname -->
       <div class="col-start-2 col-span-2 grid">
         <div class="mx-5">
-          <h1 class="dark:text-slate-200 text-xl font-bold text-left">
+          <h1
+            class="dark:text-slate-200 text-[22px] tracking-5 font-mono text-left"
+          >
             {{ user.name ? user.name : user.login }}
           </h1>
         </div>
 
-        <div class="mt-1 text-left text-lg text-blue-600 font-bold mx-5">
+        <div
+          class="mt-1 text-left text-blue-600 font-mono tracking-widest font-extralight mx-5"
+        >
           <!-- user tag -->
           <a :href="'https://github.com/' + user.login" target="_blank">
             <p class="text-[#0079FF] text-sm">@{{ user.login }}</p></a
           >
         </div>
-        <div class="dark:text-slate-600 text-slate-400 text-left mx-5">
+        <div
+          class="dark:text-white text-sm font-thin font-mono text-slate-400 text-left mx-5"
+        >
           <!-- joined date -->
           <p>joined {{ userStore.formatJoinedDate(user.created_at) }}</p>
         </div>
       </div>
     </div>
-    <div class="dark:text-slate-400 dark:bg-inherit py-5 rounded-lg">
+    <div
+      class="dark:text-white text-sm tracking-wide font-mono dark:bg-inherit py-5 rounded-lg"
+    >
       <p>
         {{ user.bio ? user.bio : "This profile has no bio." }}
       </p>
     </div>
     <!-- stats -->
     <div
-      class="dark:text-slate-400 dark:bg-[#141D2F] rounded-xl pt-5 px-6 pb-8 grid grid-cols-3 gap-2 text-center"
+      class="dark:text-slate-400 font-mono text-sm tracking-wide dark:bg-[#141D2F] rounded-xl pt-5 px-6 pb-8 grid grid-cols-3 gap-2 text-center"
     >
       <!-- headers -->
       <div class="">Repos</div>
       <div class="">Followers</div>
       <div class="">Following</div>
       <!-- stat -->
-      <div class="text-xl dark:text-white font-bold">
+      <div class="text-xl tracking-wider dark:text-white font-bold">
         {{ user.public_repos }}
       </div>
-      <div class="text-xl dark:text-white font-bold">
+      <div class="text-xl tracking-wider dark:text-white font-bold">
         {{ user.followers }}
       </div>
-      <div class="text-xl dark:text-white font-bold">
+      <div class="text-xl tracking-wider dark:text-white font-bold">
         {{ user.following }}
       </div>
     </div>
     <!-- SoMe links -->
-    <div class="dark:text-slate-400 mt-5 grid grid-cols-1 gap-2 pl-3 my-10">
+    <div
+      class="dark:text-white font-mono mt-5 grid grid-cols-1 gap-2 pl-3 my-10"
+    >
       <div class="inline-flex">
         <div class="w-3">
           <svg height="20" width="14" xmlns="http://www.w3.org/2000/svg">
@@ -135,7 +145,7 @@
       </div>
     </div>
   </div>
-  <div v-else class="dark:text-white pb-5">
+  <div v-else class="dark:text-white font-mono pb-5">
     Hello here you can search for any user from GitHub.
   </div>
 </template>
