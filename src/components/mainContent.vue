@@ -1,28 +1,27 @@
 <template>
   <div class="" v-if="showUser">
-    <div class="grid grid-cols-3">
+    <div class="grid grid-cols-3 mt-4">
       <div class="col-start-1">
         <!-- logo -->
-        <img :src="user.avatar_url" class="w-24 rounded-full" />
+        <img :src="user.avatar_url" class="w-20 rounded-full" />
       </div>
       <!-- user nickname -->
       <div class="col-start-2 col-span-2 grid">
-        <div class="h-3">
-          <h1 class="dark:text-slate-200 font-bold text-right">
+        <div class="mx-5">
+          <h1 class="dark:text-slate-200 text-xl font-bold text-left">
             {{ user.name ? user.name : user.login }}
           </h1>
         </div>
-        <div class="dark:text-slate-600 text-slate-400 text-sm text-right">
-          <!-- joined date -->
-          <p>joined {{ userStore.formatJoinedDate(user.created_at) }}</p>
-        </div>
-        <div
-          class="dark:text-blue-300 text-right text-lg text-blue-600 font-bold"
-        >
+
+        <div class="mt-1 text-left text-lg text-blue-600 font-bold mx-5">
           <!-- user tag -->
           <a :href="'https://github.com/' + user.login" target="_blank">
-            <p>@{{ user.login }}</p></a
+            <p class="text-[#0079FF] text-sm">@{{ user.login }}</p></a
           >
+        </div>
+        <div class="dark:text-slate-600 text-slate-400 text-left mx-5">
+          <!-- joined date -->
+          <p>joined {{ userStore.formatJoinedDate(user.created_at) }}</p>
         </div>
       </div>
     </div>
@@ -33,7 +32,7 @@
     </div>
     <!-- stats -->
     <div
-      class="dark:text-slate-400 dark:bg-black rounded-lg p-5 grid grid-cols-3 gap-2"
+      class="dark:text-slate-400 dark:bg-[#141D2F] rounded-xl pt-5 px-6 pb-8 grid grid-cols-3 gap-2 text-center"
     >
       <!-- headers -->
       <div class="">Repos</div>
@@ -61,7 +60,7 @@
             />
           </svg>
         </div>
-        <div class="px-5">
+        <div class="px-5 pb-2">
           <!-- location -->
           <p class="text-sm">
             {{ user.location ? user.location : "Not Available." }}
@@ -77,7 +76,7 @@
             />
           </svg>
         </div>
-        <div class="px-5 text-sm">
+        <div class="px-5 text-sm pb-2">
           <!-- twitter url-->
 
           <a
@@ -91,7 +90,7 @@
         </div>
       </div>
       <div class="inline-flex">
-        <div class="w-3">
+        <div class="w-3 pb-2">
           <svg height="20" width="20" xmlns="http://www.w3.org/2000/svg">
             <g :fill="iconColor">
               <path
@@ -112,8 +111,8 @@
       </div>
       <!-- company icon -->
       <div class="inline-flex">
-        <div class="w-3">
-          <svg class="" xmlns="http://www.w3.org/2000/svg">
+        <div class="w-3 pb-14">
+          <svg class="h-5" xmlns="http://www.w3.org/2000/svg">
             <g :fill="iconColor">
               <path
                 d="M10.858 1.558L1.7.167A1.477 1.477 0 00.517.492 1.49 1.49 0 000 1.608v17.559c0 .458.375.833.833.833h2.709v-4.375c0-.808.65-1.458 1.458-1.458h2.083c.809 0 1.459.65 1.459 1.458V20h3.541V3a1.46 1.46 0 00-1.225-1.442zM4.583 12.292h-1.25a.625.625 0 010-1.25h1.25a.625.625 0 010 1.25zm0-2.5h-1.25a.625.625 0 010-1.25h1.25a.625.625 0 010 1.25zm0-2.5h-1.25a.625.625 0 010-1.25h1.25a.625.625 0 010 1.25zm0-2.5h-1.25a.625.625 0 010-1.25h1.25a.625.625 0 010 1.25zm4.167 7.5H7.5a.625.625 0 010-1.25h1.25a.625.625 0 010 1.25zm0-2.5H7.5a.625.625 0 010-1.25h1.25a.625.625 0 010 1.25zm0-2.5H7.5a.625.625 0 010-1.25h1.25a.625.625 0 010 1.25zm0-2.5H7.5a.625.625 0 010-1.25h1.25a.625.625 0 010 1.25zM18.85 9.035l-5.933-1.242V20h5.625A1.46 1.46 0 0020 18.542V10.46c0-.688-.47-1.274-1.15-1.425zM16.875 17.5h-1.25a.625.625 0 010-1.25h1.25a.625.625 0 010 1.25zm0-2.5h-1.25a.625.625 0 010-1.25h1.25a.625.625 0 010 1.25zm0-2.5h-1.25a.625.625 0 010-1.25h1.25a.625.625 0 010 1.25z"
@@ -136,12 +135,12 @@
       </div>
     </div>
   </div>
-  <div v-else class="dark:text-white">
+  <div v-else class="dark:text-white pb-5">
     Hello here you can search for any user from GitHub.
   </div>
 </template>
 <script setup>
-const iconColor = "#C4C4C4";
+const iconColor = "#FFFFFF";
 
 //import
 import { ref, watchEffect } from "vue";

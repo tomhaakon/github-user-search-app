@@ -45,12 +45,12 @@ export const useUserStore = defineStore("user", {
     // format date
     formatJoinedDate(dateString) {
       const date = new Date(dateString);
-      const formattedDate = date.toLocaleDateString("en-US", {
-        month: "long",
-        day: "2-digit",
-        year: "numeric",
-      });
-      return formattedDate.replace(/\//g, ".");
+
+      const day = date.toLocaleDateString("en", { day: "2-digit" });
+      const month = date.toLocaleDateString("en", { month: "short" });
+      const year = date.toLocaleDateString("en", { year: "numeric" });
+
+      return `${day} ${month} ${year}`;
     },
   },
   getters: {
