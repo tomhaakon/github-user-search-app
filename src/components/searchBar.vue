@@ -1,5 +1,5 @@
 <template>
-  <div class="flex ">
+  <div class="flex">
     <img src="../assets/icon-search.svg" class="ml-2 h-5 p-0 mt-4" />
     <div class="flex-1">
       <input
@@ -30,41 +30,32 @@ const userStore = useUserStore();
 
 //refs
 const searchQuery = ref("");
-let usr = ref();
+
 let alertNotFound = ref(false);
 //funksjoner
 
-const search = async (query) => {
+const search = (query) => {
   console.log("searched clicked");
-
-  if (query !== "") {
-    console.log("query:", query);
-    console.log("søker..");
-    const response = await userStore.searchAllUsers(query);
-    const responseData = await response.json(); // Extract the JSON data from the response
-    const result = responseData.items; // Extract the user data from the response JSON
-
-    let count = 0;
-    result.forEach((usr) => {
-      let selectedUser = "";
-
-      const usrToLower = usr.login.toLowerCase();
-      const queryToLower = query.toLowerCase();
-
-      if (usrToLower === queryToLower) {
-        selectedUser = usr.login;
-        selectUser(selectedUser);
-        count--;
+  console.log("userStore.users:", userStore.users);
+  if (query && userStore.users) {
+    userStore.searchAllUsers(query);
+    console.log("this is the query:", query);
+    let userFound = false;
+    userStore.users.forEach((user) => {
+      // console.log("asdsa", user);
+      if (query.toLowerCase() == user.login.toLowerCase()) {
+        console.log("true");
+        console.log("this is tha usar", user);
+        userStore.selectedUser = user.login;
+        userStore.selectSingleUser(user.login);
+        userStore.$patch({ selectedUser: user.login });
+        userFound = true;
       }
-      count++;
+      if (!userFound) {
+        console.log("false");
+        userNotFound();
+      }
     });
-    console.log("resuklt", result.length);
-    if (count === result.length) {
-      userNotFound();
-    }
-    console.log(count);
-  } else {
-    console.log("searchfield empty");
   }
 };
 const userNotFound = () => {
@@ -75,13 +66,13 @@ const userNotFound = () => {
   }, 2000);
 };
 
-const selectUser = (user) => {
-  console.log("selectuser triggered");
-  searchQuery.value = "";
+// const selectUser = (user) => {
+//   console.log("selectuser triggered");
+//   searchQuery.value = "";
 
-  userStore.$patch({ selectedUser: user });
-  userStore.$patch({ showUser: true });
+//   userStore.$patch({ selectedUser: user });
+//   userStore.$patch({ showUser: true });
 
-  userStore.selectSingleUser(user);
-};
+//   // userStore.selectSingleUser(user);
+// };
 </script>

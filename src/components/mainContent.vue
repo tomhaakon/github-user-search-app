@@ -1,22 +1,21 @@
 <template>
   <div class="md:px-10 lg:px-14" v-if="showUser">
     <div class="grid grid-cols-3">
-      <div class="col-start-1">
+      <div class="col-start-1 col-end-1">
         <!-- logo -->
         <img :src="user.avatar_url" class="w-20 md:w-32 rounded-full" />
       </div>
       <!-- user nickname -->
-      <div class="col-start-2 col-span-2 grid">
-        <div class="mx-5 md:h-2 md:mt-5">
+      <div class="mx-5 col-start-2 col-end-3 col-span-2 grid">
+        <div class="md:h-2 md:mt-5 xl:w-82">
           <h1
-            class="dark:text-slate-200 text-[22px] md:font-bold tracking-5 font-mono text-left"
+            class="dark:text-slate-200 text-lg md:font-bold tracking-5 font-mono text-left"
           >
             {{ user.name ? user.name : user.login }}
           </h1>
         </div>
-
         <div
-          class="mt-1 md:h-2 text-left text-blue-600 font-mono tracking-widest font-extralight mx-5"
+          class="md:mt-1 text-left text-blue-600 font-mono tracking-widest font-extralight"
         >
           <!-- user tag -->
           <a :href="'https://github.com/' + user.login" target="_blank">
@@ -24,7 +23,7 @@
           >
         </div>
         <div
-          class="dark:text-white text-sm font-thin font-mono text-slate-400 text-left mx-5"
+          class="dark:text-white text-sm font-thin font-mono text-slate-400 text-left"
         >
           <!-- joined date -->
           <p>joined {{ userStore.formatJoinedDate(user.created_at) }}</p>
@@ -158,13 +157,10 @@ import { useUserStore } from "../stores/UserStore";
 
 const userStore = useUserStore();
 const user = ref();
-const showUser = ref(false);
-
-console.log("test", user.value);
-watchEffect(() => {
-  user.value = userStore.getSelectedUser;
-  showUser.value = user.value !== null;
-});
+const showUser = ref();
+if (user.value) {
+  user.value = showUser;
+}
 
 const convertToLink = (string) => {
   const linkTags = string.split(", ").map((tag) => tag.replace("@", ""));
