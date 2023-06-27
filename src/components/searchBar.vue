@@ -9,13 +9,16 @@
         v-model="searchQuery"
       />
     </div>
-    <div v-if="alertNotFound" class="mt-3 font-bold text-red-600 mr-2">
+    <div
+      v-if="userStore.alertNotFound"
+      class="mt-3 font-bold text-red-600 mr-2"
+    >
       <p>No result</p>
     </div>
     <div>
       <button
         class="font-mono btn normal-casen bg-[#0079FF] text-white border-0"
-        @click="search(searchQuery)"
+        @click="triggerSearch(searchQuery)"
       >
         Search
       </button>
@@ -27,44 +30,45 @@ import { ref } from "vue";
 import { useUserStore } from "../stores/UserStore";
 
 const userStore = useUserStore();
-
 //refs
 const searchQuery = ref("");
 
-let alertNotFound = ref(false);
 //funksjoner
+const triggerSearch = (searchQuery) => {
+  userStore.searchAllUsers(searchQuery);
+};
+// const search = (query) => {
+//   console.log("searched clicked");
 
-const search = (query) => {
-  console.log("searched clicked");
-  console.log("userStore.users:", userStore.users);
-  if (query && userStore.users) {
-    userStore.searchAllUsers(query);
-    console.log("this is the query:", query);
-    let userFound = false;
-    userStore.users.forEach((user) => {
-      // console.log("asdsa", user);
-      if (query.toLowerCase() == user.login.toLowerCase()) {
-        console.log("true");
-        console.log("this is tha usar", user);
-        userStore.selectedUser = user.login;
-        userStore.selectSingleUser(user.login);
-        userStore.$patch({ selectedUser: user.login });
-        userFound = true;
-      }
-      if (!userFound) {
-        console.log("false");
-        userNotFound();
-      }
-    });
-  }
-};
-const userNotFound = () => {
-  alertNotFound.value = true;
-  searchQuery.value = "";
-  setTimeout(() => {
-    alertNotFound.value = false;
-  }, 2000);
-};
+//   console.log("userStore.users:", userStore.users);
+//   if (query) {
+//     userStore.searchAllUsers(query);
+//     console.log("this is the query:", query);
+//     let userFound = false;
+//     userStore.users.forEach((user) => {
+//       // console.log("asdsa", user);
+//       if (query.toLowerCase() == user.login.toLowerCase()) {
+//         console.log("user found");
+//         console.log("this is tha usar", user);
+//         userStore.selectedUser = user.login;
+//         userStore.selectSingleUser(user.login);
+//         userStore.$patch({ selectedUser: user.login });
+//         userFound = true;
+//       }
+//       if (!userFound) {
+//         userStore.userNotFound();
+//         console.log("user not found");
+//       }
+//     });
+//   }
+// };
+// const userNotFound = () => {
+//   alertNotFound.value = true;
+//   searchQuery.value = "";
+//   setTimeout(() => {
+//     alertNotFound.value = false;
+//   }, 2000);
+// };
 
 // const selectUser = (user) => {
 //   console.log("selectuser triggered");
