@@ -21,7 +21,7 @@
     >
       <div class="h-6 text-right font-mono">
         <button
-          class="text-slate-500 text-xs"
+          class="text-slate-600 text-xs tracking-widest"
           @click="userStore.showUser = !userStore.showUser"
         >
           back
@@ -37,7 +37,7 @@
         </div>
 
         <!-- user nickname -->
-        <div class="mx-5 col-start-2 col-end-3 col-span-2 grid">
+        <div class="col-start-2 col-span-2">
           <div class="md:h-2 md:mt-5 xl:w-82">
             <h1
               class="dark:text-slate-200 text-lg md:font-bold tracking-5 font-mono text-left"
@@ -57,13 +57,13 @@
               :href="'https://github.com/' + userStore.selectUser.login"
               target="_blank"
             >
-              <p class="text-[#0079FF] text-sm">
+              <p class="text-[#0079FF] text-xs">
                 @{{ userStore.selectUser.login }}
               </p></a
             >
           </div>
           <div
-            class="dark:text-white text-sm font-thin font-mono text-slate-400 text-left"
+            class="dark:text-white text-xs font-thin font-mono text-slate-400 text-left"
           >
             <!-- joined date -->
             <p>
@@ -88,9 +88,9 @@
         class="dark:text-slate-400 font-mono text-sm tracking-wide dark:bg-[#141D2F] rounded-xl pt-5 pb-8 grid grid-cols-3 gap-2 text-center"
       >
         <!-- headers -->
-        <div class="">Repos</div>
-        <div class="">Followers</div>
-        <div class="">Following</div>
+        <div class="text-xs">Repos</div>
+        <div class="text-xs">Followers</div>
+        <div class="text-xs">Following</div>
         <!-- stat -->
         <div class="text-xl tracking-wider dark:text-white font-bold">
           {{ userStore.selectUser.public_repos }}
