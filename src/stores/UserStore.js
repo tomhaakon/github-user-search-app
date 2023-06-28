@@ -6,7 +6,7 @@ export const useUserStore = defineStore("user", {
   state: () => ({
     showUser: false,
     searchResult: [],
-    selectUser: [],
+    selectUser: null,
     userNotFound: false,
     users: [],
     gitHubData: [
@@ -88,19 +88,15 @@ export const useUserStore = defineStore("user", {
             Authorization: `${Token}`,
           },
         });
-        //const response = await apiCall.json();
+        const response = await apiCall.json();
 
         // let data = JSON.parse(response);
-        //  this.selectUser = data;
+        this.selectUser = response;
         this.showUser = true;
       } catch (error) {
         console.error(error);
       }
     },
   },
-  getters: {
-    piss() {
-      return this.selectUser;
-    },
-  },
+  getters: {},
 });

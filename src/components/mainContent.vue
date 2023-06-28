@@ -17,12 +17,23 @@
   <!-- seksjon for visning av profil  -->
   <section v-if="userStore.showUser">
     <div
-      class="md:px-10 lg:px-14 dark:bg-[#1E2A47] bg-white mx-7 rounded-2xl px-5 pt-5"
+      class="md:px-10 lg:px-14 dark:bg-[#1E2A47] bg-white mx-7 rounded-2xl px-5"
     >
+      <div class="h-6 text-right font-mono">
+        <button
+          class="text-slate-500 text-xs"
+          @click="userStore.showUser = !userStore.showUser"
+        >
+          back
+        </button>
+      </div>
       <div class="grid grid-cols-3">
         <div class="col-start-1 col-end-1">
           <!-- logo -->
-          <img :src="gitHubUser.avatar_url" class="w-20 md:w-32 rounded-full" />
+          <img
+            :src="userStore.selectUser.avatar_url"
+            class="w-20 md:w-32 rounded-full"
+          />
         </div>
 
         <!-- user nickname -->
@@ -31,22 +42,33 @@
             <h1
               class="dark:text-slate-200 text-lg md:font-bold tracking-5 font-mono text-left"
             >
-              {{ gitHubUser.name ? gitHubUser.name : gitHubUser.login }}
+              {{
+                userStore.selectUser.name
+                  ? userStore.selectUser.name
+                  : userStore.selectUser.login
+              }}
             </h1>
           </div>
           <div
             class="md:mt-1 text-left text-blue-600 font-mono tracking-widest font-extralight"
           >
             <!-- user tag -->
-            <a :href="'https://github.com/' + gitHubUser.login" target="_blank">
-              <p class="text-[#0079FF] text-sm">@{{ gitHubUser.login }}</p></a
+            <a
+              :href="'https://github.com/' + userStore.selectUser.login"
+              target="_blank"
+            >
+              <p class="text-[#0079FF] text-sm">
+                @{{ userStore.selectUser.login }}
+              </p></a
             >
           </div>
           <div
             class="dark:text-white text-sm font-thin font-mono text-slate-400 text-left"
           >
             <!-- joined date -->
-            <p>joined {{ formatJoinedDate(gitHubUser.created_at) }}</p>
+            <p>
+              joined {{ formatJoinedDate(userStore.selectUser.created_at) }}
+            </p>
           </div>
         </div>
       </div>
@@ -54,7 +76,11 @@
         class="dark:text-white text-sm tracking-wide font-mono dark:bg-inherit py-5 rounded-lg"
       >
         <p>
-          {{ gitHubUser.bio ? gitHubUser.bio : "This profile has no bio." }}
+          {{
+            userStore.selectUser.bio
+              ? userStore.selectUser.bio
+              : "This profile has no bio."
+          }}
         </p>
       </div>
       <!-- stats -->
@@ -67,13 +93,13 @@
         <div class="">Following</div>
         <!-- stat -->
         <div class="text-xl tracking-wider dark:text-white font-bold">
-          {{ gitHubUser.public_repos }}
+          {{ userStore.selectUser.public_repos }}
         </div>
         <div class="text-xl tracking-wider dark:text-white font-bold">
-          {{ gitHubUser.followers }}
+          {{ userStore.selectUser.followers }}
         </div>
         <div class="text-xl tracking-wider dark:text-white font-bold">
-          {{ gitHubUser.following }}
+          {{ userStore.selectUser.following }}
         </div>
       </div>
       <!-- SoMe links -->
@@ -92,7 +118,11 @@
           <div class="px-5 pb-2">
             <!-- location -->
             <p class="text-sm">
-              {{ gitHubUser.location ? gitHubUser.location : "Not Available." }}
+              {{
+                userStore.selectUser.location
+                  ? userStore.selectUser.location
+                  : "Not Available."
+              }}
             </p>
           </div>
         </div>
@@ -109,13 +139,15 @@
             <!-- twitter url-->
 
             <a
-              v-if="gitHubUser.twitter_username"
+              v-if="userStore.selectUser.twitter_username"
               target="_blank"
-              :href="'https://twitter.com/' + gitHubUser.twitter_username"
+              :href="
+                'https://twitter.com/' + userStore.selectUser.twitter_username
+              "
             >
-              {{ gitHubUser.twitter_username }}
+              {{ userStore.selectUser.twitter_username }}
             </a>
-            <p v-if="!gitHubUser.twitter_username">Not Available.</p>
+            <p v-if="!userStore.selectUser.twitter_username">Not Available.</p>
           </div>
         </div>
         <div class="inline-flex">
@@ -132,10 +164,13 @@
             </svg>
           </div>
           <div class="px-5 text-sm">
-            <a v-if="gitHubUser" :href="gitHubUser.url" target="_blank">{{
-              gitHubUser.html_url
-            }}</a>
-            <p v-if="!gitHubUser.html_url">Not Available.</p>
+            <a
+              v-if="userStore.selectUser"
+              :href="userStore.selectUser.url"
+              target="_blank"
+              >{{ userStore.selectUser.html_url }}</a
+            >
+            <p v-if="!userStore.selectUser.html_url">Not Available.</p>
           </div>
         </div>
         <!-- company icon -->
@@ -151,15 +186,15 @@
           </div>
           <div class="px-5 text-sm">
             <!-- company -->
-            <p v-if="gitHubUser.company" class="">
+            <p v-if="userStore.selectUser.company" class="">
               <a
-                v-for="link in convertToLink(gitHubUser.company)"
+                v-for="link in convertToLink(userStore.selectUser.company)"
                 :href="'https://github.com/' + link"
               >
                 @{{ link }}
               </a>
             </p>
-            <p v-if="!gitHubUser.company">Not Available.</p>
+            <p v-if="!userStore.selectUser.company">Not Available.</p>
           </div>
         </div>
       </div>
@@ -172,49 +207,11 @@ const iconColor = "#FFFFFF";
 //import
 import { ref } from "vue";
 import { useUserStore } from "../stores/UserStore";
-const data = [
-  {
-    login: "octocat",
-    id: 583231,
-    node_id: "MDQ6VXNlcjU4MzIzMQ==",
-    avatar_url: "https://avatars.githubusercontent.com/u/583231?v=4",
-    gravatar_id: "",
-    url: "https://api.github.com/users/octocat",
-    html_url: "https://github.com/octocat",
-    followers_url: "https://api.github.com/users/octocat/followers",
-    following_url:
-      "https://api.github.com/users/octocat/following{/other_user}",
-    gists_url: "https://api.github.com/users/octocat/gists{/gist_id}",
-    starred_url: "https://api.github.com/users/octocat/starred{/owner}{/repo}",
-    subscriptions_url: "https://api.github.com/users/octocat/subscriptions",
-    organizations_url: "https://api.github.com/users/octocat/orgs",
-    repos_url: "https://api.github.com/users/octocat/repos",
-    events_url: "https://api.github.com/users/octocat/events{/privacy}",
-    received_events_url: "https://api.github.com/users/octocat/received_events",
-    type: "User",
-    site_admin: false,
-    name: "The Octocat",
-    company: "@github",
-    blog: "https://github.blog",
-    location: "San Francisco",
-    email: null,
-    hireable: null,
-    bio: null,
-    twitter_username: null,
-    public_repos: 8,
-    public_gists: 8,
-    followers: 9636,
-    following: 9,
-    created_at: "2011-01-25T18:44:36Z",
-    updated_at: "2023-06-22T11:15:59Z",
-  },
-];
-//refs
-console.log(data[0].login);
-const userStore = useUserStore();
-const gitHubUser = ref(data[0]);
 
-console.log("gitHubUser:", typeof data[0].login);
+//refs
+
+const userStore = useUserStore();
+
 // convert link
 const convertToLink = (string) => {
   const linkTags = string.split(", ").map((tag) => tag.replace("@", ""));
