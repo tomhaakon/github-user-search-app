@@ -4,10 +4,12 @@ const Token = import.meta.env.VITE_TOKEN;
 
 export const useUserStore = defineStore("user", {
   state: () => ({
+    firstProfile: true,
     showUser: false,
-    searchResult: [],
+    searchResult: null,
     selectUser: null,
     userNotFound: false,
+    emptySearchField: false,
     users: [],
     gitHubData: [
       {
@@ -52,33 +54,45 @@ export const useUserStore = defineStore("user", {
 
   actions: {
     async searchAllUsers(query) {
-      try {
-        const apiCall = await fetch(
-          "https://api.github.com/search/users?q=" +
-            query +
-            "&page,per_page,sort,order",
-          {
-            headers: {
-              Authorization: `${Token}`,
-            },
-          }
-        );
-        const response = await apiCall.json();
-        const users = response.items;
-        this.showUser = false;
-        this.users = [];
+      if (query) {
+        try {
+          const apiCall = await fetch(
+            "https://api.github.com/search/users?q=" +
+              query +
+              "&page,per_page,sort,order",
+            {
+              headers: {
+                Authorization: `${Token}`,
+              },
+            }
+          );
+          const response = await apiCall.json();
+          const users = response.items;
+          this.showUser = false;
+          this.users = [];
 
-        if (query) {
-          let i = 0;
-          for (let user of users) {
-            if (i >= 5) break;
-            this.users.push(user);
-            i++;
+          if (query && users.length > 0) {
+            let i = 0;
+            for (let user of users) {
+              if (i >= 5) break;
+              this.users.push(user);
+              i++;
+            }
+            this.searchResult = this.users;
+          } else {
+            this.userNotFound = true;
+            setTimeout(() => {
+              this.userNotFound = false;
+            }, 2000);
           }
-          this.searchResult = this.users;
+        } catch (error) {
+          console.error(error);
         }
-      } catch (error) {
-        console.error(error);
+      } else {
+        this.emptySearchField = true;
+        setTimeout(() => {
+          this.emptySearchField = false;
+        }, 2000);
       }
     },
     async selectSingleUser(user) {
@@ -90,7 +104,6 @@ export const useUserStore = defineStore("user", {
         });
         const response = await apiCall.json();
 
-        // let data = JSON.parse(response);
         this.selectUser = response;
         this.showUser = true;
       } catch (error) {
@@ -98,5 +111,6 @@ export const useUserStore = defineStore("user", {
       }
     },
   },
+
   getters: {},
 });

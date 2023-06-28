@@ -2,16 +2,20 @@
   <!-- seksjon for visning av søk -->
   <section v-if="!userStore.showUser">
     <!-- search result -->
-    <div
-      v-for="userSearch in userStore.searchResult"
-      @click="userStore.selectSingleUser(userSearch.login)"
-      class="dark:text-white font-mono flex dark:bg-[#1E2A47] bg-white mx-7 rounded-xl pr-5 mb-2"
-    >
-      <div class="w-14">
-        <img :src="userSearch.avatar_url" class="rounded-full h-10" />
+    <div v-if="userStore.searchResult" class="text-white">
+      <div
+        v-for="userSearch in userStore.searchResult"
+        @click="userStore.selectSingleUser(userSearch.login)"
+        class="dark:text-white font-mono flex dark:bg-[#1E2A47] bg-white mx-7 rounded-xl pr-5 mb-2"
+      >
+        <div class="w-14">
+          <img :src="userSearch.avatar_url" class="rounded-full h-10" />
+        </div>
+        <div class="text-left pt-2">{{ userSearch.login }}</div>
       </div>
-      <div class="text-left pt-2">{{ userSearch.login }}</div>
     </div>
+
+    <!-- if nothing is searched for -->
   </section>
 
   <!-- seksjon for visning av profil  -->
@@ -21,6 +25,7 @@
     >
       <div class="h-6 text-right font-mono">
         <button
+          v-if="!userStore.firstProfile"
           class="text-slate-600 text-xs tracking-widest"
           @click="userStore.showUser = !userStore.showUser"
         >
@@ -211,6 +216,10 @@ import { useUserStore } from "../stores/UserStore";
 //refs
 
 const userStore = useUserStore();
+
+if (userStore.firstProfile) {
+  userStore.selectSingleUser("Octocat");
+}
 
 // convert link
 const convertToLink = (string) => {

@@ -4,16 +4,19 @@
     <div class="flex-1">
       <input
         type="text"
-        placeholder="Search GitHub username"
+        placeholder="github username..."
         class="font-mono dark:text-white tracking-tighter md:text-lg pr-0 text-sm w-full input-ghost input border-0 focus:outline-none"
         v-model="searchQuery"
       />
     </div>
+    <div v-if="userStore.userNotFound" class="mt-3 font-bold text-red-600 mr-2">
+      <p>No result!</p>
+    </div>
     <div
-      v-if="userStore.alertNotFound"
+      v-if="userStore.emptySearchField"
       class="mt-3 font-bold text-red-600 mr-2"
     >
-      <p>No result</p>
+      <p>Empty searchfield!</p>
     </div>
     <div>
       <button
