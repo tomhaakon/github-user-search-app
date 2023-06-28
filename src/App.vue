@@ -5,7 +5,7 @@
       <searchBar
         class="dark:bg-[#1E2A47] bg-[#FEFEFE] mx-7 rounded-2xl p-2 mb-5"
       />
-      <mainContent class="" />
+      <mainContent />
     </div>
   </main>
 </template>

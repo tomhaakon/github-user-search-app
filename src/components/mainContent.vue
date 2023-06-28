@@ -13,11 +13,7 @@
       <div class="text-left pt-2">{{ userSearch.login }}</div>
     </div>
   </section>
-  <!-- <p>---{{ yups }}---</p> -->
 
-  <button @click="testing()">sdadqwdqw</button>
-  <!-- <pre>{{ userPROFILEEEE }}</pre> -->
-  <!-- <pre>{{ user }}</pre> -->
   <!-- seksjon for visning av profil  -->
   <section v-if="userStore.showUser">
     <div
@@ -26,31 +22,31 @@
       <div class="grid grid-cols-3">
         <div class="col-start-1 col-end-1">
           <!-- logo -->
-          <img :src="user.avatar_url" class="w-20 md:w-32 rounded-full" />
+          <img :src="gitHubUser.avatar_url" class="w-20 md:w-32 rounded-full" />
         </div>
-        <p>{{ yups }}</p>
+
         <!-- user nickname -->
         <div class="mx-5 col-start-2 col-end-3 col-span-2 grid">
           <div class="md:h-2 md:mt-5 xl:w-82">
             <h1
               class="dark:text-slate-200 text-lg md:font-bold tracking-5 font-mono text-left"
             >
-              {{ user.name ? user.name : user.login }}
+              {{ gitHubUser.name ? gitHubUser.name : gitHubUser.login }}
             </h1>
           </div>
           <div
             class="md:mt-1 text-left text-blue-600 font-mono tracking-widest font-extralight"
           >
             <!-- user tag -->
-            <a :href="'https://github.com/' + user.login" target="_blank">
-              <p class="text-[#0079FF] text-sm">@{{ user.login }}</p></a
+            <a :href="'https://github.com/' + gitHubUser.login" target="_blank">
+              <p class="text-[#0079FF] text-sm">@{{ gitHubUser.login }}</p></a
             >
           </div>
           <div
             class="dark:text-white text-sm font-thin font-mono text-slate-400 text-left"
           >
             <!-- joined date -->
-            <p>joined {{ formatJoinedDate(user.created_at) }}</p>
+            <p>joined {{ formatJoinedDate(gitHubUser.created_at) }}</p>
           </div>
         </div>
       </div>
@@ -58,7 +54,7 @@
         class="dark:text-white text-sm tracking-wide font-mono dark:bg-inherit py-5 rounded-lg"
       >
         <p>
-          {{ user.bio ? user.bio : "This profile has no bio." }}
+          {{ gitHubUser.bio ? gitHubUser.bio : "This profile has no bio." }}
         </p>
       </div>
       <!-- stats -->
@@ -71,13 +67,13 @@
         <div class="">Following</div>
         <!-- stat -->
         <div class="text-xl tracking-wider dark:text-white font-bold">
-          {{ user.public_repos }}
+          {{ gitHubUser.public_repos }}
         </div>
         <div class="text-xl tracking-wider dark:text-white font-bold">
-          {{ user.followers }}
+          {{ gitHubUser.followers }}
         </div>
         <div class="text-xl tracking-wider dark:text-white font-bold">
-          {{ user.following }}
+          {{ gitHubUser.following }}
         </div>
       </div>
       <!-- SoMe links -->
@@ -96,7 +92,7 @@
           <div class="px-5 pb-2">
             <!-- location -->
             <p class="text-sm">
-              {{ user.location ? user.location : "Not Available." }}
+              {{ gitHubUser.location ? gitHubUser.location : "Not Available." }}
             </p>
           </div>
         </div>
@@ -113,13 +109,13 @@
             <!-- twitter url-->
 
             <a
-              v-if="user.twitter_username"
+              v-if="gitHubUser.twitter_username"
               target="_blank"
-              :href="'https://twitter.com/' + user.twitter_username"
+              :href="'https://twitter.com/' + gitHubUser.twitter_username"
             >
-              {{ user.twitter_username }}
+              {{ gitHubUser.twitter_username }}
             </a>
-            <p v-if="!user.twitter_username">Not Available.</p>
+            <p v-if="!gitHubUser.twitter_username">Not Available.</p>
           </div>
         </div>
         <div class="inline-flex">
@@ -136,10 +132,10 @@
             </svg>
           </div>
           <div class="px-5 text-sm">
-            <a v-if="user" :href="user.url" target="_blank">{{
-              user.html_url
+            <a v-if="gitHubUser" :href="gitHubUser.url" target="_blank">{{
+              gitHubUser.html_url
             }}</a>
-            <p v-if="!user.html_url">Not Available.</p>
+            <p v-if="!gitHubUser.html_url">Not Available.</p>
           </div>
         </div>
         <!-- company icon -->
@@ -155,53 +151,71 @@
           </div>
           <div class="px-5 text-sm">
             <!-- company -->
-            <p v-if="user.company" class="">
+            <p v-if="gitHubUser.company" class="">
               <a
-                v-for="link in convertToLink(user.company)"
+                v-for="link in convertToLink(gitHubUser.company)"
                 :href="'https://github.com/' + link"
               >
                 @{{ link }}
               </a>
             </p>
-            <p v-if="!user.company">Not Available.</p>
+            <p v-if="!gitHubUser.company">Not Available.</p>
           </div>
         </div>
       </div>
     </div>
-
-    <button @click="userStore.showUser = false">klikk</button>
   </section>
 </template>
 <script setup>
 const iconColor = "#FFFFFF";
 
 //import
-import { ref, nextTick } from "vue";
+import { ref } from "vue";
 import { useUserStore } from "../stores/UserStore";
-
+const data = [
+  {
+    login: "octocat",
+    id: 583231,
+    node_id: "MDQ6VXNlcjU4MzIzMQ==",
+    avatar_url: "https://avatars.githubusercontent.com/u/583231?v=4",
+    gravatar_id: "",
+    url: "https://api.github.com/users/octocat",
+    html_url: "https://github.com/octocat",
+    followers_url: "https://api.github.com/users/octocat/followers",
+    following_url:
+      "https://api.github.com/users/octocat/following{/other_user}",
+    gists_url: "https://api.github.com/users/octocat/gists{/gist_id}",
+    starred_url: "https://api.github.com/users/octocat/starred{/owner}{/repo}",
+    subscriptions_url: "https://api.github.com/users/octocat/subscriptions",
+    organizations_url: "https://api.github.com/users/octocat/orgs",
+    repos_url: "https://api.github.com/users/octocat/repos",
+    events_url: "https://api.github.com/users/octocat/events{/privacy}",
+    received_events_url: "https://api.github.com/users/octocat/received_events",
+    type: "User",
+    site_admin: false,
+    name: "The Octocat",
+    company: "@github",
+    blog: "https://github.blog",
+    location: "San Francisco",
+    email: null,
+    hireable: null,
+    bio: null,
+    twitter_username: null,
+    public_repos: 8,
+    public_gists: 8,
+    followers: 9636,
+    following: 9,
+    created_at: "2011-01-25T18:44:36Z",
+    updated_at: "2023-06-22T11:15:59Z",
+  },
+];
 //refs
+console.log(data[0].login);
 const userStore = useUserStore();
+const gitHubUser = ref(data[0]);
 
-// const user = toRef(userStore.selectU ser);
-// let user = userStore.piss;
-let user = JSON.parse(localStorage.getItem("userprofile"));
-
-let userPROFILEEEE = ref([]);
-// userPROFILEEEE = userStore.selectUser;
-nextTick(() => {
-  user = userStore.piss;
-});
-
-let yups = ref();
-
-const testing = () => {
-  // userPROFILEEEE = userStore.selectUser;
-  console.log("ajkshdk hs as jkdk   s sd", userPROFILEEEE);
-  // yups = userStore.piss;
-  // console.log("Yups er", yups);
-  yups.value = JSON.parse(localStorage.getItem("userprofile"));
-};
-console.log("se her :", user);
+console.log("gitHubUser:", typeof data[0].login);
+// convert link
 const convertToLink = (string) => {
   const linkTags = string.split(", ").map((tag) => tag.replace("@", ""));
   linkTags.forEach((entry) => {});
@@ -215,18 +229,4 @@ const formatJoinedDate = (dateString) => {
   const year = date.toLocaleDateString("en", { year: "numeric" });
   return `${day} ${month} ${year}`;
 };
-
-// users.forEach((user) => {
-//   // user found
-//   if (user.login.toLowerCase() == query.toLowerCase()) {
-//     console.log("user found", user.login);
-//     this.selectSingleUser(user.login);
-//   } else {
-//     // user not found
-//     this.userNotFound = true;
-//     setTimeout(() => {
-//       this.userNotFound = true;
-//     }, 2000);
-//   }
-// });
 </script>
