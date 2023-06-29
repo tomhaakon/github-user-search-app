@@ -1,5 +1,5 @@
 <template>
-  <div class="flex">
+  <div class="flex shadow-md dark:shadow-none">
     <img src="../assets/icon-search.svg" class="ml-2 h-5 p-0 mt-4" />
     <div class="flex-1">
       <input

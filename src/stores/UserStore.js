@@ -4,6 +4,7 @@ const Token = import.meta.env.VITE_TOKEN;
 
 export const useUserStore = defineStore("user", {
   state: () => ({
+    profileViews: 0,
     firstProfile: true,
     showUser: false,
     searchResult: null,
@@ -106,6 +107,17 @@ export const useUserStore = defineStore("user", {
 
         this.selectUser = response;
         this.showUser = true;
+
+        if (this.profileViews > 0) {
+          if (this.profileViews >= 10) {
+            this.profileViews = 1;
+          }
+          this.firstProfile = false;
+        } else {
+          this.firstProfile = true;
+        }
+        this.profileViews++;
+        console.log(this.profileViews);
       } catch (error) {
         console.error(error);
       }

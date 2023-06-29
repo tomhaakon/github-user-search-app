@@ -1,8 +1,8 @@
 <template>
-  <div class="navbar">
+  <div class="navbar pb-10">
     <div class="flex-1 mt-5">
       <a
-        class="font-mono btn border-0 normal-case tracking-wide text-3xl dark:text-white"
+        class="font-mono btn border-0 normal-case tracking-wide text-2xl dark:text-white"
         href="http://localhost:5173/"
         >devfinder</a
       >
