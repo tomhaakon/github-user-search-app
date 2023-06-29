@@ -2,7 +2,7 @@
   <div class="mt-5 font-mono">
     <div v-if="!isDark" class="flex">
       <button @click="toggleDark()" class="btn btn-ghost">
-        <p class="text-black tracking-widest">dark</p>
+        <p class="text-[#697C9A] tracking-widest">dark</p>
         <div class="flex-1">
           <svg width="20" height="20" xmlns="http://www.w3.org/2000/svg">
             <path
