@@ -1,12 +1,12 @@
 <template>
-  <!-- seksjon for visning av søk -->
+  <!-- section for search -->
   <section v-if="!userStore.showUser">
     <!-- search result -->
     <div v-if="userStore.searchResult" class="dark:text-white">
       <div
         v-for="userSearch in userStore.searchResult"
         @click="userStore.selectSingleUser(userSearch.login)"
-        class="dark:text-white font-mono flex dark:bg-[#1E2A47] bg-white mx-7 rounded-xl pr-5 mb-2"
+        class="dark:text-white font-mono flex dark:bg-[#1E2A47] bg-white mx-7 rounded-xl pr-5 mb-2 cursor-pointer"
       >
         <div class="w-14">
           <img :src="userSearch.avatar_url" class="rounded-full h-10" />
@@ -18,7 +18,7 @@
     <!-- if nothing is searched for -->
   </section>
 
-  <!-- seksjon for visning av profil  -->
+  <!-- section for showing profile  -->
   <section v-if="userStore.showUser">
     <div
       class="dark:bg-[#1E2A47] bg-white mx-7 rounded-2xl px-5 shadow-lg dark:shadow-none sm:px-12 sm:pt-4"
@@ -33,7 +33,7 @@
           back
         </button>
       </div>
-      <!-- del:1 Ikon, navn, tag, joined -->
+
       <div class="flex">
         <div class="w-1/4">
           <!-- logo -->
@@ -45,7 +45,7 @@
         <div class="w-full flex">
           <div class="sm:flex sm:flex-wrap w-full pl-5 sm:pb-10">
             <div class="flex w-full">
-              <div class="sm:w-3/5 w-full sm:pb-5">
+              <div class="sm:w-3/5 w-full sm:pb-2">
                 <p
                   class="dark:text-slate-200 text-lg tracking-5 font-mono sm:text- sm:font-extrabold sm:w-full"
                 >
@@ -55,15 +55,14 @@
                       : userStore.selectUser.login
                   }}
                 </p>
-                <p>
-                  <a
-                    :href="'https://github.com/' + userStore.selectUser.login"
-                    target="_blank"
-                    class="text-[#0079FF] text-xs sm:text-lg font-mono tracking-widest xs:font-extralight"
-                  >
-                    @{{ userStore.selectUser.login }}</a
-                  >
-                </p>
+
+                <a
+                  :href="'https://github.com/' + userStore.selectUser.login"
+                  target="_blank"
+                  class="text-[#0079FF] text-xs sm:text-lg font-mono tracking-widest xs:font-extralight"
+                >
+                  @{{ userStore.selectUser.login }}</a
+                >
               </div>
               <div class="w-2/5 hidden sm:block">
                 <p
@@ -74,12 +73,6 @@
               </div>
             </div>
 
-            <!-- Visning av joined for SM-up -->
-            <!--  -->
-            <!-- user nickname -->
-
-            <!-- usertag -->
-
             <p class="hidden sm:block font-mono dark:text-white">
               {{
                 userStore.selectUser.bio
@@ -88,10 +81,7 @@
               }}
             </p>
 
-            <!-- user tag -->
-
             <!-- joined date for mobile -->
-
             <div class="">
               <p
                 class="sm:hidden dark:text-white text-xs font-thin font-mono text-slate-400 text-left pt-2"
@@ -190,6 +180,7 @@
                     'https://twitter.com/' +
                     userStore.selectUser.twitter_username
                   "
+                  class="hover:underline"
                 >
                   {{ userStore.selectUser.twitter_username }}
                 </a>
@@ -201,6 +192,7 @@
                 </p>
               </div>
             </div>
+            <!-- homepage -->
             <div class="inline-flex">
               <div class="w-3 pb-2">
                 <svg
@@ -226,6 +218,7 @@
                 <a
                   v-if="userStore.selectUser"
                   :href="userStore.selectUser.blog"
+                  class="hover:underline"
                   target="_blank"
                   >{{ userStore.selectUser.blog }}</a
                 >
@@ -261,6 +254,7 @@
                   <a
                     v-for="link in convertToLink(userStore.selectUser.company)"
                     :href="'https://github.com/' + link"
+                    class="hover:underline"
                   >
                     @{{ link }}
                   </a>
@@ -282,26 +276,24 @@
       >
         <div class="sm:col-start-2 sm:col-span-3 sm:pb-5 sm:hidden">
           <p>
-            <!-- {{
+            {{
               userStore.selectUser.bio
                 ? userStore.selectUser.bio
                 : "This profile has no bio."
-            }} -->
+            }}
           </p>
         </div>
       </div>
-
-      <!--  -->
     </div>
   </section>
 </template>
 <script setup>
 //import
-
 import { useUserStore } from "../stores/UserStore";
 
 const userStore = useUserStore();
-console.log(userStore.firstProfile);
+
+// setting for firstprofile
 if (userStore.firstProfile) {
   userStore.selectSingleUser("Octocat");
 }

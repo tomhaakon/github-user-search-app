@@ -20,7 +20,7 @@
     </div>
     <div>
       <button
-        class="font-mono btn normal-casen bg-[#0079FF] text-white border-0"
+        class="font-mono btn normal-case bg-[#0079FF] text-white border-0 hover:bg-[#5ba7ff]"
         @click="triggerSearch(searchQuery)"
       >
         Search
@@ -29,6 +29,7 @@
   </div>
 </template>
 <script setup>
+//import
 import { ref } from "vue";
 import { useUserStore } from "../stores/UserStore";
 
@@ -36,50 +37,8 @@ const userStore = useUserStore();
 //refs
 const searchQuery = ref("");
 
-//funksjoner
+//functions
 const triggerSearch = (searchQuery) => {
   userStore.searchAllUsers(searchQuery);
 };
-// const search = (query) => {
-//   console.log("searched clicked");
-
-//   console.log("userStore.users:", userStore.users);
-//   if (query) {
-//     userStore.searchAllUsers(query);
-//     console.log("this is the query:", query);
-//     let userFound = false;
-//     userStore.users.forEach((user) => {
-//       // console.log("asdsa", user);
-//       if (query.toLowerCase() == user.login.toLowerCase()) {
-//         console.log("user found");
-//         console.log("this is tha usar", user);
-//         userStore.selectedUser = user.login;
-//         userStore.selectSingleUser(user.login);
-//         userStore.$patch({ selectedUser: user.login });
-//         userFound = true;
-//       }
-//       if (!userFound) {
-//         userStore.userNotFound();
-//         console.log("user not found");
-//       }
-//     });
-//   }
-// };
-// const userNotFound = () => {
-//   alertNotFound.value = true;
-//   searchQuery.value = "";
-//   setTimeout(() => {
-//     alertNotFound.value = false;
-//   }, 2000);
-// };
-
-// const selectUser = (user) => {
-//   console.log("selectuser triggered");
-//   searchQuery.value = "";
-
-//   userStore.$patch({ selectedUser: user });
-//   userStore.$patch({ showUser: true });
-
-//   // userStore.selectSingleUser(user);
-// };
 </script>
