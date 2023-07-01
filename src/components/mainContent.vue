@@ -274,15 +274,7 @@
       <div
         class="dark:text-white text-sm tracking-wide font-mono dark:bg-inherit pb-5 rounded-lg sm:grid sm:grid-cols-4 sm:py-0"
       >
-        <div class="sm:col-start-2 sm:col-span-3 sm:pb-5 sm:hidden">
-          <p>
-            {{
-              userStore.selectUser.bio
-                ? userStore.selectUser.bio
-                : "This profile has no bio."
-            }}
-          </p>
-        </div>
+  
       </div>
     </div>
   </section>
