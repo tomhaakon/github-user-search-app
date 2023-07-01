@@ -27,7 +27,7 @@
       <div class="h-6 text-right font-mono">
         <button
           v-if="!userStore.firstProfile"
-          class="text-slate-100 text-xs tracking-widest mt-3 sm:mt-0"
+          class="dark:text-slate-100 text-xs tracking-widest mt-3 sm:mt-0"
           @click="userStore.showUser = !userStore.showUser"
         >
           back

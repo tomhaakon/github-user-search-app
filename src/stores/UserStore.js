@@ -117,7 +117,7 @@ export const useUserStore = defineStore("user", {
           this.firstProfile = true;
         }
         this.profileViews++;
-        console.log(this.profileViews);
+     
       } catch (error) {
         console.error(error);
       }
