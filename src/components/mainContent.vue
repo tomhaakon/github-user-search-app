@@ -27,7 +27,7 @@
       <div class="h-6 text-right font-mono">
         <button
           v-if="!userStore.firstProfile"
-          class="text-slate-600 text-xs tracking-widest mt-3 sm:mt-0"
+          class="text-slate-100 text-xs tracking-widest mt-3 sm:mt-0"
           @click="userStore.showUser = !userStore.showUser"
         >
           back
@@ -74,11 +74,17 @@
             </div>
 
             <p class="hidden sm:block font-mono dark:text-white">
-              {{
-                userStore.selectUser.bio
-                  ? userStore.selectUser.bio
-                  : "This profile has no bio."
-              }}
+              <span
+                :class="{
+                  'dark:text-gray-500': !userStore.selectUser.bio,
+                }"
+              >
+                {{
+                  userStore.selectUser.bio
+                    ? userStore.selectUser.bio
+                    : "This profile has no bio."
+                }}
+              </span>
             </p>
 
             <!-- joined date for mobile -->
@@ -94,11 +100,17 @@
       </div>
       <div>
         <p class="font-mono dark:text-white font-thin sm:hidden py-8">
-          {{
-            userStore.selectUser.bio
-              ? userStore.selectUser.bio
-              : "This profile has no bio."
-          }}
+          <span
+            :class="{
+              'dark:text-gray-500': !userStore.selectUser.bio,
+            }"
+          >
+            {{
+              userStore.selectUser.bio
+                ? userStore.selectUser.bio
+                : "This profile has no bio."
+            }}
+          </span>
         </p>
       </div>
       <div class="flex">
@@ -273,9 +285,7 @@
       <!-- del2: bio -->
       <div
         class="dark:text-white text-sm tracking-wide font-mono dark:bg-inherit pb-5 rounded-lg sm:grid sm:grid-cols-4 sm:py-0"
-      >
-  
-      </div>
+      ></div>
     </div>
   </section>
 </template>
