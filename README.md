@@ -44,9 +44,9 @@ Users should be able to:
 
 ## My process
 
-### Built with
+As suggested in the challange from frontend mentor, i made the design part first, html and css. Then I did javascript and tried different ways to make this work. My mentor at work pushed me to practice Pinia store, so I made that into this project even though it was not needed. Also tried to stick to mobile-first workflow.
 
-- Mobile-first workflow
+### Built with
 
 - [Vue 3](https://vuejs.org/) - JS library
 - [Pinia](https://pinia.vuejs.org/) - State management
@@ -56,9 +56,11 @@ Users should be able to:
 
 ### What I learned
 
+I learned so much about Pinia Store, tailwindcss and DaisyUI. I first tried to fetch the API with axios, but eneded to fetch the data with vues fetch. Ive never done any API stuff before either so that was also a huge learning for me.
+
 ### Continued development
 
-Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect.
+For future I may add something for the search function as for now you can search for infinite text and every symbol. Want to restrain that. There are probably alot parts of this project that need adjusting which I may learn in the future.
 
 ### Useful resources
 
@@ -72,6 +74,4 @@ Use this section to outline areas that you want to continue focusing on in futur
 
 ## Acknowledgments
 
-This is where you can give a hat tip to anyone who helped you out on this project. Perhaps you worked in a team or got some inspiration from someone else's solution. This is the perfect place to give them some credit.
-
-## Recommended IDE Setup
+Thanks alot to my mentors Bjørn and Tor-Mangne @ prios. I got stuck alot and both of them gave huge helping in explaining and helping me search for errors.
