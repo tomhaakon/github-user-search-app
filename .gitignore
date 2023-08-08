@@ -38,3 +38,5 @@ dist-ssr
 
 # ignore token
 /src/stores/config.js
+# Local Netlify folder
+.netlify
